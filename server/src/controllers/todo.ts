@@ -61,12 +61,43 @@ const getTodos = async (req: Request, res: Response) => {
 
 const updateTodo = async (req: Request, res: Response) => {
   try {
-  } catch (error) {}
+    const { id } = req.params;
+    const { title, description } = req.body;
+
+    if (!title && !description) {
+      return res.status(400).send({ message: "Nothing to update" });
+    }
+
+    const fieldsToUpdate: Partial<{ Title: string; Description: string }> = {};
+    if (title) fieldsToUpdate.Title = title;
+    if (description) fieldsToUpdate.Description = description;
+
+    const updatedRecord = await base("Table 1").update(id, fieldsToUpdate);
+
+    const updatedTodo: TodoType = {
+      id: updatedRecord.get("Id") as unknown as number,
+      title: updatedRecord.get("Title") as string,
+      description: updatedRecord.get("Description") as string,
+    };
+
+    res.status(200).send({ message: "Todo updated successfully", updatedTodo });
+  } catch (error) {
+    console.error((error as Error).message);
+    res.status(500).send({ message: "Failed to update todo", error });
+  }
 };
 
 const deleteTodo = async (req: Request, res: Response) => {
   try {
-  } catch (error) {}
+    const { id } = req.params;
+
+    await base("Table 1").destroy(id);
+
+    res.status(200).send({ message: "Todo deleted successfully" });
+  } catch (error) {
+    console.error((error as Error).message);
+    res.status(500).send({ message: "Failed to delete todo", error });
+  }
 };
 
 export { createTodo, getTodos, updateTodo, deleteTodo };
