@@ -35,23 +35,20 @@ const getTodos = async (req: Request, res: Response) => {
     const todos: TodoType[] = [];
     // console.log("todos:", todos);
 
-    await base("Table 1")
-      .select({ view: "Grid view" })
-      .eachPage(function page(pageRecords, fetchNextPage) {
-        pageRecords.forEach((record) => {
-          const todo: TodoType = {
-            id: record.id as unknown as number, // Convert the ID to number if it's originally a string
-            title: record.get("Title") as string, // Assuming the Airtable field is named "Title"
-            description: record.get("Description") as string, // Assuming the Airtable field is named "Description"
-          };
-          //   console.log("todo:", todo);
+    const records = await base("Table 1").select({ view: "Grid view" }).all();
 
-          todos.push(todo);
-        });
-        fetchNextPage();
-      });
+    records.forEach((record) => {
+      const todo: TodoType = {
+        id: record.id as unknown as number, // Convert the ID to number if it's originally a string
+        title: record.get("Title") as string, // Assuming the Airtable field is named "Title"
+        description: record.get("Description") as string, // Assuming the Airtable field is named "Description"
+      };
+
+      todos.push(todo);
+    });
     res.status(200).send({ message: "Todos retrieved successfully", todos });
   } catch (error) {
+    console.error((error as Error).message);
     res.status(500).send({ message: "Failed to retrieve todos", error });
   }
 };
