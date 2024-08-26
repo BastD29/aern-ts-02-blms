@@ -17,6 +17,11 @@ const createTodo = async (req: Request, res: Response) => {
       Description: description,
     });
 
+    // Update the record to include its ID in a specific column
+    await base("Table 1").update(createdRecord.id, {
+      Id: createdRecord.id, // Assuming you have a column named "Id"
+    });
+
     const newTodo: TodoType = {
       id: createdRecord.id as unknown as number,
       title: createdRecord.fields.Title as string,
@@ -39,7 +44,8 @@ const getTodos = async (req: Request, res: Response) => {
 
     records.forEach((record) => {
       const todo: TodoType = {
-        id: record.id as unknown as number, // Convert the ID to number if it's originally a string
+        // id: record.id as unknown as number, // Convert the ID to number if it's originally a string
+        id: record.get("Id") as unknown as number, // Assuming you have a column named "RecordID"
         title: record.get("Title") as string, // Assuming the Airtable field is named "Title"
         description: record.get("Description") as string, // Assuming the Airtable field is named "Description"
       };
