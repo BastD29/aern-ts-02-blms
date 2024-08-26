@@ -1,8 +1,9 @@
 import { Request, Response } from "express";
+import { base } from "../config/airtable";
 
-const createTable = async (req: Request, res: Response) => {
+const createMission = async (req: Request, res: Response) => {
   try {
-  } catch (error) {}
+  } catch (err) {}
 };
 
-export { createTable };
+export { createMission };
