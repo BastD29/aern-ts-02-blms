@@ -5,5 +5,6 @@ declare namespace NodeJS {
     ALLOWED_ORIGIN: string;
     AIRTABLE_API_KEY: string;
     AIRTABLE_BASE_ID: string;
+    AIRTABLE_ENDPOINT_URL: string;
   }
 }
