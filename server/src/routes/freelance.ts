@@ -1,9 +1,9 @@
 import express from "express";
-import { createMission } from "../controllers/mission";
+import { createFreelance } from "../controllers/freelance";
 
 const router = express.Router();
 
-router.post("/create/mission", createMission);
+router.post("/create/freelance", createFreelance);
 // router.get("", getMissions);
 // router.put("/update/:id", updateMission);
 // router.delete("/delete/:id", deleteMission);

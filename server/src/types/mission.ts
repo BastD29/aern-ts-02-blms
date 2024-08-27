@@ -1,5 +1,7 @@
+import { FreelanceType } from "./freelance";
+
 type MissionType = {
-  id: string;
+  id: number;
   label: string;
   beginDate: string;
   endDate: string;
@@ -7,11 +9,4 @@ type MissionType = {
   freelance: FreelanceType;
 };
 
-type FreelanceType = {
-  id: string;
-  firstname: string;
-  lastname: string;
-  email: string;
-};
-
-export type { MissionType, FreelanceType };
+export type { MissionType };
